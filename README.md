@@ -1,6 +1,4 @@
-# DAMG 6210 Group 8
-
-# Online Retail Management Database Design
+# Formula 1 Management System
 
 ## Group 8
 
@@ -11,22 +9,36 @@
 - Weijia Fang
 - Shruti Dixit
 
+---
+
 ## Background:
-The rapid growth of e-commerce has heightened the need for efficient management of retail operations. An Online Retail Management Database System provides a centralized platform to streamline key processes, including inventory management, order tracking, customer data handling, and sales reporting.
 
-Designed to address the complexities of modern retail, the system enhances operational efficiency by automating tasks, minimizing errors, and supporting data-driven decision-making. With scalable database technologies and integration capabilities for payment gateways, shipping providers, and analytics tools, the system empowers businesses to optimize operations and deliver superior customer experiences. It serves as an essential backbone for achieving competitive advantage in the dynamic online retail landscape.
+Formula 1 (F1) is a globally renowned sport that demands cutting-edge technology and data-driven decisions. To meet the growing complexity of team operations, we propose developing an advanced F1 Team Management System—a centralized database solution tailored to the unique needs of F1 teams.
 
-## Objectives:
-Develop a database system using SQL to efficiently manage and organize data for key entities, including User, Seller, Product, Categories, Current Order, Order Items, Payment, Shopping Cart, Review, Wishlist, Return, and Shipping Details. The system will support streamlined data operations and ensure seamless integration of these entities to meet the functional requirements of an online retail platform.
+This system will utilize relational databases to store and manage critical data such as driver profiles, telemetry, race statistics, car configurations, budgets, and sponsorship records. Features like SQL querying, data normalization, and efficient indexing will ensure optimal performance for real-time data retrieval and analysis.
+
+Additionally, the system will integrate functionalities for role-based access control, transaction management, and data warehousing to support decision-making processes and cross-departmental collaboration. By leveraging modern database architectures, the F1 Team Management System will enhance operational efficiency, support predictive analytics, and empower teams to adapt swiftly to Formula 1's dynamic demands.
+
+---
+
+## Project Description:
+
+Develop a database system using SQL to efficiently manage and organize data for key entities. The system will support streamlined data operations and ensure seamless integration of these entities to meet the functional requirements of an online retail platform. It will also use generative AI to analyze the stored data to help the manager make better decisions.
+
+---
 
 ## Mission Objectives:
-- **User Management**: Maintain user accounts, including UserID, passwords, and roles (e.g., customer, seller).
-- **Seller Management**: Store seller profiles with product listings and contact information.
-- **Product and Category Management**: Organize products into categories and manage details such as pricing, descriptions, and stock levels.
-- **Order Management**: Track customer orders, including order details, statuses, and related items.
-- **Payment Processing**: Securely handle payment transactions and maintain payment records.
-- **Shopping Cart Management**: Provide a shopping cart for customers to add, update, or remove products in real-time.
-- **Review and Feedback**: Enable customers to leave reviews and ratings for products and sellers.
-- **Wishlist Functionality**: Allow customers to save desired products to a wishlist.
-- **Return and Refund Management**: Process product returns and refunds, with tracking and status updates.
-- **Shipping and Logistics**: For efficient order delivery, record shipping details, including delivery addresses and tracking numbers.
+
+Develop the following entities and design their relationships:
+
+1. **Team**: Represents the official team.
+2. **Driver**: Represents multiple drivers involved in the sport.
+3. **Race**: Details about the race like the race season, year, weather conditions, etc.
+4. **Circuit**: Represents the information about the circuit like the length, number of laps, seating capacity, etc.
+5. **Car**: Information about the car, including the team it belongs to and its specifications.
+6. **Season**: Information about the season, such as the year, season winners, and the number of races in the season.
+7. **Sponsor**: Information about the sponsor of each team.
+8. **Car Parts**: Inventory and technical details of components used in the cars.
+9. **Championships**: Data about championship winners, point tables, and more.
+10. **Tires**: Types of tires that can be used for the cars over the weekend.
+11. **Records**: Holds information about all the records in the sport.
