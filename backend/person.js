@@ -8,7 +8,7 @@ import { createDatabaseConnection } from "./database.js";
 const router = express.Router();
 router.use(express.json());
 
-const database = await createDatabaseConnection(SQLAuthentication);
+const database = await createDatabaseConnection(PasswordlessConfig);
 
 router.get("/", async (req, res) => {
   try {
