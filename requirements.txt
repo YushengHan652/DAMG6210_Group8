@@ -3,13 +3,5 @@ fastapi
 uvicorn[standard]
 pydantic
 azure-identity
-asgiref
+django-mssql-backend
 Django
-django-cors-headers
-djangorestframework
-djangorestframework-simplejwt
-PyJWT
-pytz
-sqlparse
-psycopg2-binary
-python-dotenv
