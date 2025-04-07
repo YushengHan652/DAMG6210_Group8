@@ -44,7 +44,7 @@ Develop the following entities and design their relationships:
 11. **Records**: Holds information about all the records in the sport.
 
 
-# F1 Management System (backend)
+# Backend
 
 A comprehensive Django web application for managing Formula 1 racing data, with REST API and CURL functionality for external data integration.
 
