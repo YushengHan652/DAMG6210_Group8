@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/Formula1-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/Formula1-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --color-f1-red: #FF1E00;
+  --color-f1-black: #15151E;
+  --color-f1-gray: #38383F;
+  --color-f1-white: #F8F4F4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+  background-color: var(--color-f1-black);
+  color: var(--color-f1-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Formula1', 'Titillium Web', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-f1-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-f1-red);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cc1800;
+}
+
+/* Custom utility classes */
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-f1-red text-white hover:bg-red-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-f1-gray text-white hover:bg-gray-600;
+  }
+  
+  .card {
+    @apply bg-f1-gray rounded-lg shadow-card p-4;
+  }
+  
+  .section-title {
+    @apply text-2xl font-bold mb-4 text-f1-red;
+  }
+  
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 py-6;
+  }
+}
