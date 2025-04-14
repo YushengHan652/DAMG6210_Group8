@@ -1,80 +1,73 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { getSeasons } from '../api/seasons'
-import { getStandings } from '../api/standings'
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import apiService from '../services/api';
 
-const AppContext = createContext()
+// Create context
+const AppContext = createContext();
 
-export const useAppContext = () => useContext(AppContext)
+// Custom hook to use the context
+export const useAppContext = () => useContext(AppContext);
 
+// Provider component
 export const AppProvider = ({ children }) => {
-  const [currentSeason, setCurrentSeason] = useState(null)
-  const [seasons, setSeasons] = useState([])
-  const [driverStandings, setDriverStandings] = useState([])
-  const [teamStandings, setTeamStandings] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  // State
+  const [currentSeason, setCurrentSeason] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentSeasonDriverStandings, setCurrentSeasonDriverStandings] = useState([]);
+  const [currentSeasonTeamStandings, setCurrentSeasonTeamStandings] = useState([]);
 
-  const loadInitialData = async () => {
-    setLoading(true)
-    try {
-      // Load seasons
-      const seasonsData = await getSeasons()
-      if (seasonsData.length > 0) {
-        setSeasons(seasonsData)
-        // Set current season to the most recent one
-        const currentSeasonData = seasonsData[0] // Assuming they're ordered by year desc
-        setCurrentSeason(currentSeasonData)
+  // Fetch current season on mount
+  useEffect(() => {
+    const fetchCurrentSeason = async () => {
+      try {
+        setLoading(true);
+        const response = await apiService.getSeasons();
+        // Assuming seasons are returned in descending order by year
+        const latestSeason = response.data.results[0];
+        setCurrentSeason(latestSeason);
         
-        // Load current season standings
-        const driverStandingsData = await getStandings(currentSeasonData.season_id, 'Driver')
-        const teamStandingsData = await getStandings(currentSeasonData.season_id, 'Team')
+        if (latestSeason) {
+          // Fetch driver standings for current season
+          const driverStandingsResponse = await apiService.getSeasonStandings(
+            latestSeason.season_id,
+            'Driver'
+          );
+          setCurrentSeasonDriverStandings(driverStandingsResponse.data.results);
+          
+          // Fetch team standings for current season
+          const teamStandingsResponse = await apiService.getSeasonStandings(
+            latestSeason.season_id,
+            'Team'
+          );
+          setCurrentSeasonTeamStandings(teamStandingsResponse.data.results);
+        }
         
-        setDriverStandings(driverStandingsData)
-        setTeamStandings(teamStandingsData)
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching current season:', err);
+        setError('Failed to load current season data');
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Failed to load initial data:', err)
-      setError('Failed to load data. Please refresh the page.')
-    } finally {
-      setLoading(false)
-    }
-  }
+    };
 
-  const changeSeason = async (seasonId) => {
-    setLoading(true)
-    try {
-      const selectedSeason = seasons.find(s => s.season_id === parseInt(seasonId))
-      if (selectedSeason) {
-        setCurrentSeason(selectedSeason)
-        
-        // Load selected season standings
-        const driverStandingsData = await getStandings(seasonId, 'Driver')
-        const teamStandingsData = await getStandings(seasonId, 'Team')
-        
-        setDriverStandings(driverStandingsData)
-        setTeamStandings(teamStandingsData)
-      }
-    } catch (err) {
-      console.error('Failed to change season:', err)
-      setError('Failed to load season data. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
+    fetchCurrentSeason();
+  }, []);
 
-  const clearError = () => setError(null)
-
-  const value = {
+  // Value to be provided by the context
+  const contextValue = {
     currentSeason,
-    seasons,
-    driverStandings,
-    teamStandings,
+    currentSeasonDriverStandings,
+    currentSeasonTeamStandings,
     loading,
     error,
-    loadInitialData,
-    changeSeason,
-    clearError
-  }
+    setCurrentSeason,
+  };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
-}
+  return (
+    <AppContext.Provider value={contextValue}>
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+export default AppContext;

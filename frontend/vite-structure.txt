@@ -1,0 +1,54 @@
+frontend/
+├── public/
+│   ├── favicon.ico
+│   └── f1-logo.png
+├── src/
+│   ├── assets/
+│   │   └── styles/
+│   │       └── main.css
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Header.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── Loading.jsx
+│   │   │   └── ErrorMessage.jsx
+│   │   ├── dashboard/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── StandingsWidget.jsx
+│   │   │   └── RecentRacesWidget.jsx
+│   │   ├── teams/
+│   │   │   ├── TeamList.jsx
+│   │   │   ├── TeamDetail.jsx
+│   │   │   └── TeamCard.jsx
+│   │   ├── drivers/
+│   │   │   ├── DriverList.jsx
+│   │   │   ├── DriverDetail.jsx
+│   │   │   └── DriverCard.jsx
+│   │   ├── races/
+│   │   │   ├── RaceList.jsx
+│   │   │   ├── RaceDetail.jsx
+│   │   │   └── RaceCard.jsx
+│   │   ├── seasons/
+│   │   │   ├── SeasonList.jsx
+│   │   │   └── SeasonDetail.jsx
+│   │   └── circuits/
+│   │       ├── CircuitList.jsx
+│   │       └── CircuitDetail.jsx
+│   ├── contexts/
+│   │   └── AppContext.jsx
+│   ├── services/
+│   │   ├── api.js
+│   │   └── config.js
+│   ├── utils/
+│   │   └── helpers.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── routes.jsx
+├── .env.example
+├── .gitignore
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md

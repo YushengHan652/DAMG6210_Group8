@@ -1,16 +1,58 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App.jsx'
-import { AppProvider } from './context/AppContext'
-import './styles/index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import App from './App';
+import './assets/styles/main.css';
+
+// Create a client for react-query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AppProvider>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
         <App />
-      </AppProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-)
+      </BrowserRouter>
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+
+const TeamForm = React.lazy(() => import('./components/teams/TeamForm'));
+const DriverForm = React.lazy(() => import('./components/drivers/DriverForm'));
+const RaceForm = React.lazy(() => import('./components/races/RaceForm'));
+
+// Add these routes inside the routes array
+{
+  path: 'teams/new',
+  element: (
+    <React.Suspense fallback={<Loading />}>
+      <TeamForm />
+    </React.Suspense>
+  ),
+},
+{
+  path: 'drivers/new',
+  element: (
+    <React.Suspense fallback={<Loading />}>
+      <DriverForm />
+    </React.Suspense>
+  ),
+},
+{
+  path: 'races/new',
+  element: (
+    <React.Suspense fallback={<Loading />}>
+      <RaceForm />
+    </React.Suspense>
+  ),
+},
