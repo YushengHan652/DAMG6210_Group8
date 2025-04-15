@@ -161,3 +161,64 @@ class RecordsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Records
         fields = '__all__'
+
+class DriverSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Driver model with custom validation and additional fields.
+    """
+    team_name = serializers.ReadOnlyField(source='team.team_name', default=None)
+    
+    class Meta:
+        model = Driver
+        fields = [
+            'driver_id', 'name', 'age', 'nationality', 'team_id', 'team_name',
+            'number_of_wins', 'salary', 'contract_end_date', 'pole_positions',
+            'fastest_laps', 'contract_start_date', 'created_on', 'modified_on'
+        ]
+    
+    def validate(self, data):
+        """
+        Custom validation for driver data.
+        """
+        # Age validation
+        if 'age' in data and (data['age'] < 16 or data['age'] > 65):
+            raise serializers.ValidationError({"age": "Driver age must be between 16 and 65."})
+        
+        # Contract dates validation
+        if 'contract_start_date' in data and 'contract_end_date' in data:
+            if data['contract_start_date'] and data['contract_end_date']:
+                if data['contract_end_date'] <= data['contract_start_date']:
+                    raise serializers.ValidationError(
+                        {"contract_end_date": "Contract end date must be after start date."}
+                    )
+        
+        # Make sure all stat fields are non-negative
+        for field in ['number_of_wins', 'pole_positions', 'fastest_laps']:
+            if field in data and data[field] < 0:
+                raise serializers.ValidationError({field: f"{field.replace('_', ' ').title()} cannot be negative."})
+        
+        # Ensure team exists
+        if 'team_id' in data:
+            try:
+                team = Team.objects.get(team_id=data['team_id'])
+            except Team.DoesNotExist:
+                raise serializers.ValidationError({"team_id": "Selected team does not exist."})
+        
+        return data
+    
+    def create(self, validated_data):
+        """
+        Create a new driver instance.
+        """
+        # Set default values for stats if not provided
+        validated_data.setdefault('number_of_wins', 0)
+        validated_data.setdefault('pole_positions', 0)
+        validated_data.setdefault('fastest_laps', 0)
+        
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        """
+        Update an existing driver instance.
+        """
+        return super().update(instance, validated_data)

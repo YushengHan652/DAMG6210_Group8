@@ -70,6 +70,16 @@ const TeamList = () => {
             <option value="-budget">Budget</option>
           </select>
         </div>
+
+        <div className="page-header">
+          <div className="header-content">
+            <h1 className="page-title">Formula 1 Teams</h1>
+            <Link to="/teams/new" className="add-new-btn">Add New Team</Link>
+          </div>
+          <p className="page-description">
+            View all Formula 1 teams competing in the championship
+          </p>
+        </div>
       </div>
 
       {isLoading ? (

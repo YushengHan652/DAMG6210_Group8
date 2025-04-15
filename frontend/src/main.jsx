@@ -27,32 +27,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>
 );
 
-const TeamForm = React.lazy(() => import('./components/teams/TeamForm'));
-const DriverForm = React.lazy(() => import('./components/drivers/DriverForm'));
-const RaceForm = React.lazy(() => import('./components/races/RaceForm'));
-
-// Add these routes inside the routes array
-{
-  path: 'teams/new',
-  element: (
-    <React.Suspense fallback={<Loading />}>
-      <TeamForm />
-    </React.Suspense>
-  ),
-},
-{
-  path: 'drivers/new',
-  element: (
-    <React.Suspense fallback={<Loading />}>
-      <DriverForm />
-    </React.Suspense>
-  ),
-},
-{
-  path: 'races/new',
-  element: (
-    <React.Suspense fallback={<Loading />}>
-      <RaceForm />
-    </React.Suspense>
-  ),
-},
