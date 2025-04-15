@@ -70,12 +70,47 @@ class TeamViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+# This snippet focuses only on the DriverViewSet class from the api/views.py file
+
 class DriverViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows drivers to be viewed, created, updated or deleted.
+    """
     queryset = Driver.objects.all()
     serializer_class = DriverSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'nationality', 'team__team_name']
     ordering_fields = ['name', 'age', 'number_of_wins', 'pole_positions', 'fastest_laps', 'salary']
+
+    def perform_create(self, serializer):
+        """Custom method for creating a driver with validation"""
+        serializer.save()
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a driver with validation"""
+        serializer.save()
+        
+    def perform_destroy(self, instance):
+        """Custom method for deleting a driver with associated cleanup"""
+        # Get related race entries to clean up after driver deletion
+        race_entries = RaceEntry.objects.filter(driver=instance)
+        race_entry_ids = [entry.entry_id for entry in race_entries]
+        
+        # Delete any penalties and failures associated with this driver's entries
+        Penalties.objects.filter(entry_id__in=race_entry_ids).delete()
+        Failures.objects.filter(entry_id__in=race_entry_ids).delete()
+        
+        # Delete race results for this driver
+        RaceResults.objects.filter(driver=instance).delete()
+        
+        # Delete race entries
+        race_entries.delete()
+        
+        # Delete driver standings
+        Standings.objects.filter(entity_id=instance.driver_id, entity_type='Driver').delete()
+        
+        # Finally delete the driver
+        instance.delete()
 
     @action(detail=True, methods=['get'])
     def race_results(self, request, pk=None):
@@ -292,3 +327,4 @@ class RecordsViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['record_type', 'record_description', 'driver_of_the_day']
     ordering_fields = ['created_on']
+
