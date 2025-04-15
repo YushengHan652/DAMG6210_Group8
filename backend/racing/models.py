@@ -10,14 +10,13 @@ class Team(models.Model):
     tires_supplier = models.CharField(max_length=50, null=True, blank=True)
     championships_won = models.IntegerField(default=0)
     founded_year = models.IntegerField(null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.team_name
 
     class Meta:
         db_table = 'TEAM'
+        managed = False  # This tells Django not to manage the table
 
 
 class Driver(models.Model):

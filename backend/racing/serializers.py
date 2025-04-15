@@ -9,7 +9,8 @@ from .models import (
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = ['team_id', 'team_name', 'team_country', 'team_principal', 
+                 'budget', 'tires_supplier', 'championships_won', 'founded_year']
 
 
 class DriverSerializer(serializers.ModelSerializer):

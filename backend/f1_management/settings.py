@@ -72,16 +72,25 @@ WSGI_APPLICATION = 'f1_management.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',  
+        'ENGINE': 'mssql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT', '1433'),
         'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',  
+            'driver': 'ODBC Driver 18 for SQL Server',
+            'TrustServerCertificate': 'yes',
+            'Encrypt': 'yes',
+            'Connection Timeout': 30,
         },
     }
+}
+
+# Prevent Django from creating new tables
+MIGRATION_MODULES = {
+    'api': None,
+    'racing': None,
 }
 
 # Password validation
@@ -132,7 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny' if DEBUG else 'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
