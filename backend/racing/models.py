@@ -10,6 +10,8 @@ class Team(models.Model):
     tires_supplier = models.CharField(max_length=50, null=True, blank=True)
     championships_won = models.IntegerField(default=0)
     founded_year = models.IntegerField(null=True, blank=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.team_name
@@ -31,8 +33,8 @@ class Driver(models.Model):
     pole_positions = models.IntegerField(default=0)
     fastest_laps = models.IntegerField(default=0)
     contract_start_date = models.DateField(null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -50,8 +52,8 @@ class Season(models.Model):
     title_sponsor = models.CharField(max_length=100, null=True, blank=True)
     prize_money_awarded = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
     time_gmt_class = models.DateTimeField(null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Season {self.year}"
@@ -75,8 +77,8 @@ class Standings(models.Model):
     podiums = models.IntegerField(default=0)
     rank = models.IntegerField(null=True, blank=True)
     fastest_laps = models.IntegerField(default=0)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.entity_type} Standings - {self.season}"
@@ -101,8 +103,8 @@ class Staff(models.Model):
     employment_status = models.CharField(max_length=20, choices=EMPLOYMENT_STATUSES, null=True, blank=True)
     salary = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     first_terms = models.CharField(max_length=255, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -173,8 +175,8 @@ class Sponsor(models.Model):
     headquarters = models.CharField(max_length=100, null=True, blank=True)
     annual_funding = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
     sponsorship_type = models.CharField(max_length=50, choices=SPONSORSHIP_TYPES, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.sponsor_name
@@ -208,8 +210,8 @@ class Car(models.Model):
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     horsepower = models.IntegerField(null=True, blank=True)
     tyre_supplier = models.CharField(max_length=50, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.team.team_name} - {self.model}"
@@ -236,8 +238,8 @@ class Circuit(models.Model):
     length_circuit = models.DecimalField(max_digits=8, decimal_places=3)
     lap_record_time = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
     type = models.CharField(max_length=50, choices=CIRCUIT_TYPES, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -256,8 +258,8 @@ class Race(models.Model):
     circuit_length = models.DecimalField(max_digits=8, decimal_places=3)
     number_of_laps = models.IntegerField()
     race_distance = models.DecimalField(max_digits=8, decimal_places=3)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.location} Grand Prix {self.season.year}"
@@ -275,8 +277,8 @@ class RaceEntry(models.Model):
     upgrades_applied = models.CharField(max_length=255, null=True, blank=True)
     race_modifications = models.CharField(max_length=255, null=True, blank=True)
     grid_position_final = models.IntegerField(null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.driver.name} - {self.race.location} GP"
@@ -304,8 +306,8 @@ class RaceResults(models.Model):
     laps_completed = models.IntegerField(null=True, blank=True)
     dnf_status = models.CharField(max_length=50, choices=DNF_STATUSES, null=True, blank=True)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.driver.name} - {self.race.location} GP - Position: {self.final_position or 'DNF'}"
@@ -335,8 +337,8 @@ class Penalties(models.Model):
     time_penalty = models.IntegerField(null=True, blank=True)
     penalty_reason = models.CharField(max_length=255)
     penalty_status = models.CharField(max_length=50, choices=PENALTY_STATUSES)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.entry.driver.name} - {self.penalty_type} Penalty"
@@ -352,8 +354,8 @@ class Failures(models.Model):
     failure_description = models.CharField(max_length=255)
     failure_lap = models.IntegerField(null=True, blank=True)
     dnf = models.BooleanField(default=False)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.entry.driver.name} - {self.failure_type}"
@@ -380,8 +382,8 @@ class Records(models.Model):
     driver_of_the_day = models.CharField(max_length=100, null=True, blank=True)
     dnf_count = models.IntegerField(null=True, blank=True)
     longest_dnf_laps = models.CharField(max_length=50, null=True, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    modified_on = models.DateTimeField(auto_now=True)
+    CreatedOn = models.DateTimeField(auto_now_add=True)
+    ModifiedOn = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.record_type} - {self.record_description}"

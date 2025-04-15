@@ -10,7 +10,7 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ['team_id', 'team_name', 'team_country', 'team_principal', 
-                 'budget', 'tires_supplier', 'championships_won', 'founded_year']
+                 'budget', 'tires_supplier', 'championships_won', 'founded_year', 'CreatedOn']
 
 
 class DriverSerializer(serializers.ModelSerializer):
