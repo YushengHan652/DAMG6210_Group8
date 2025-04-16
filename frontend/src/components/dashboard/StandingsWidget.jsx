@@ -22,17 +22,16 @@ const StandingsWidget = ({ standings, type }) => {
             </tr>
           </thead>
           <tbody>
-<<<<<<< HEAD
             {displayStandings.map((standing) => {
               console.log('Rendering standing:', standing);
               return (
-                <tr key={`${type}-${standing.driver_id}-${standing.rank}`}>
+                <tr key={`${type}-${standing.entity_id}-${standing.rank}`}>
                   <td className="position">{standing.rank || '-'}</td>
                   <td className="name">
-                    <Link to={`/${type.toLowerCase()}s/${standing.driver_id}`}>
-                      {standing.entity_name || (type === 'Team' 
-                        ? `Team ${standing.name}`
-                        : `Driver ${standing.name}`)}
+                    <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
+                      {type === 'Team' 
+                        ? `Team ${standing.entity_id}`
+                        : `Driver ${standing.entity_id}`}
                     </Link>
                   </td>
                   <td className="points">{standing.points}</td>
@@ -42,22 +41,6 @@ const StandingsWidget = ({ standings, type }) => {
                 </tr>
               );
             })}
-=======
-            {displayStandings.map((standing) => (
-              <tr key={standing.standings_id}>
-                <td className="position">{standing.rank || '-'}</td>
-                <td className="name">
-                  <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
-                    {type === 'Driver' 
-                      ? standing.driver_name
-                      : standing.team_name}
-                  </Link>
-                </td>
-                <td className="points">{standing.points}</td>
-                <td className="wins">{standing.wins}</td>
-              </tr>
-            ))}
->>>>>>> parent of fd77f62 (update everything, dashboard+driver works now)
           </tbody>
         </table>
       </div>
