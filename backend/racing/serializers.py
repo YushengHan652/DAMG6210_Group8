@@ -9,16 +9,16 @@ from .models import (
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ['team_id', 'team_name', 'team_country', 'team_principal', 
-                 'budget', 'tires_supplier', 'championships_won', 'founded_year', 'CreatedOn']
-
-
-class DriverSerializer(serializers.ModelSerializer):
-    team_name = serializers.ReadOnlyField(source='team.team_name')
-    
-    class Meta:
-        model = Driver
         fields = '__all__'
+        read_only_fields = ['team_id']
+
+
+# class DriverSerializer(serializers.ModelSerializer):
+#     team_name = serializers.ReadOnlyField(source='team.team_name')
+    
+#     class Meta:
+#         model = Driver
+#         fields = '__all__'
 
 
 class SeasonSerializer(serializers.ModelSerializer):
@@ -170,11 +170,7 @@ class DriverSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Driver
-        fields = [
-            'driver_id', 'name', 'age', 'nationality', 'team_id', 'team_name',
-            'number_of_wins', 'salary', 'contract_end_date', 'pole_positions',
-            'fastest_laps', 'contract_start_date', 'created_on', 'modified_on'
-        ]
+        fields = '__all__'
     
     def validate(self, data):
         """

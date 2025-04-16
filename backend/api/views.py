@@ -24,6 +24,22 @@ class TeamViewSet(viewsets.ModelViewSet):
     search_fields = ['team_name', 'team_country', 'team_principal']
     ordering_fields = ['team_name', 'championships_won', 'founded_year', 'budget']
 
+    @action(detail=False, methods=['patch'])
+    def update_by_name(self, request):
+        team_name = request.data.get('team_name')
+        if not team_name:
+            return Response({"error": "team_name is required"}, status=400)
+        
+        try:
+            team = Team.objects.get(team_name=team_name)
+            serializer = self.get_serializer(team, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
+        except Team.DoesNotExist:
+            return Response({"error": "Team not found"}, status=404)
+
     @action(detail=True, methods=['get'])
     def drivers(self, request, pk=None):
         team = self.get_object()
