@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.db.models import Sum, Avg, Count, F, Q
 from django.http import JsonResponse
 from django.contrib import messages
+from datetime import datetime  # Change this line
 
 from .models import (
     Team, Driver, Season, Standings, Staff, Mechanic, Analyst, Manager, Engineer,
