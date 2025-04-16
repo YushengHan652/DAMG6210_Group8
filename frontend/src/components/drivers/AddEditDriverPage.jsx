@@ -7,40 +7,30 @@ const AddEditDriverPage = () => {
   const isEditMode = !!id;
 
   return (
-    <div className="add-edit-driver-page">
-      <div className="page-header">
-        <h1>{isEditMode ? 'Edit Driver' : 'Add New Driver'}</h1>
-        <div className="page-links">
-          <Link to="/drivers" className="back-link">
-            &larr; Back to Drivers
+    <div className="page-container">
+      <h1 className="page-title">{isEditMode ? 'Edit Driver' : 'Add New Driver'}</h1>
+      <div className="page-links">
+        <Link to="/drivers" className="back-link">
+          &larr; Back to Drivers
+        </Link>
+        {isEditMode && (
+          <Link to={`/drivers/${id}`} className="view-link">
+            View Driver Profile
           </Link>
-          {isEditMode && (
-            <Link to={`/drivers/${id}`} className="view-link">
-              View Driver Profile
-            </Link>
-          )}
-        </div>
+        )}
       </div>
-      
-      <div className="form-container">
+      <div className="page-content">
         <DriverForm driverId={id} />
       </div>
-
+      
       <style jsx>{`
-        .add-edit-driver-page {
-          max-width: 1000px;
-          margin: 0 auto;
+        .page-container {
           padding: 20px;
         }
         
-        .page-header {
+        .page-title {
           margin-bottom: 20px;
-        }
-        
-        .page-header h1 {
-          margin-top: 0;
-          margin-bottom: 10px;
-          color: var(--secondary-color);
+          color: var(--primary-color);
         }
         
         .page-links {
@@ -61,10 +51,8 @@ const AddEditDriverPage = () => {
           text-decoration: underline;
         }
         
-        .form-container {
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          padding: 1px;
+        .page-content {
+          max-width: 800px;
         }
       `}</style>
     </div>

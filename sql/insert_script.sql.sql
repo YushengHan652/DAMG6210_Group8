@@ -73,26 +73,26 @@ VALUES
 -- Insert DRIVER data
 INSERT INTO DRIVER (Name, Age, Nationality, Team_ID, Number_of_Wins, Salary, Contract_End_Date, Pole_Positions, Fastest_Laps, Contract_Start_Date)
 VALUES 
-('Max Verstappen', 27, 'Netherlands', 3, 60, 25000000.00, '2028-12-31', 40, 30, '2021-01-01'),
-('Lewis Hamilton', 39, 'United Kingdom', 4, 103, 30000000.00, '2025-12-31', 104, 63, '2020-01-01'),
-('Charles Leclerc', 26, 'Monaco', 5, 5, 15000000.00, '2026-12-31', 21, 7, '2019-01-01'),
-('Lando Norris', 24, 'United Kingdom', 6, 3, 12000000.00, '2026-12-31', 6, 8, '2019-01-01'),
-('Fernando Alonso', 43, 'Spain', 7, 32, 15000000.00, '2025-12-31', 22, 21, '2023-01-01'),
-('Pierre Gasly', 28, 'France', 8, 1, 5000000.00, '2025-12-31', 0, 2, '2023-01-01'),
-('Alex Albon', 28, 'Thailand', 9, 0, 3000000.00, '2025-12-31', 0, 0, '2022-01-01'),
-('Yuki Tsunoda', 24, 'Japan', 10, 0, 1000000.00, '2025-12-31', 0, 0, '2021-01-01'),
-('Valtteri Bottas', 35, 'Finland', 11, 10, 8000000.00, '2025-12-31', 20, 18, '2022-01-01'),
-('Kevin Magnussen', 32, 'Denmark', 12, 0, 2000000.00, '2025-12-31', 1, 2, '2022-01-01'),
-('Sergio Perez', 34, 'Mexico', 3, 7, 10000000.00, '2026-12-31', 3, 6, '2021-01-01'),
-('George Russell', 26, 'United Kingdom', 4, 2, 8000000.00, '2025-12-31', 3, 5, '2022-01-01'),
-('Carlos Sainz', 30, 'Spain', 5, 3, 12000000.00, '2024-12-31', 5, 4, '2021-01-01'),
-('Oscar Piastri', 23, 'Australia', 6, 2, 3000000.00, '2025-12-31', 2, 3, '2023-01-01'),
-('Lance Stroll', 25, 'Canada', 7, 0, 10000000.00, '2026-12-31', 1, 0, '2021-01-01'),
-('Esteban Ocon', 27, 'France', 8, 1, 5000000.00, '2024-12-31', 0, 0, '2022-01-01'),
-('Logan Sargeant', 25, 'United States', 9, 0, 1000000.00, '2024-12-31', 0, 0, '2023-01-01'),
-('Daniel Ricciardo', 35, 'Australia', 10, 8, 6000000.00, '2024-12-31', 3, 16, '2023-01-01'),
-('Zhou Guanyu', 25, 'China', 11, 0, 2000000.00, '2024-12-31', 0, 0, '2022-01-01'),
-('Nico Hulkenberg', 37, 'Germany', 12, 0, 2000000.00, '2024-12-31', 1, 2, '2023-01-01');
+('Max Verstappen', 27, 'Netherlands', 1, 60, 25000000.00, '2028-12-31', 40, 30, '2021-01-01'),
+('Lewis Hamilton', 39, 'United Kingdom', 2, 103, 30000000.00, '2025-12-31', 104, 63, '2020-01-01'),
+('Charles Leclerc', 26, 'Monaco', 3, 5, 15000000.00, '2026-12-31', 21, 7, '2019-01-01'),
+('Lando Norris', 24, 'United Kingdom', 4, 3, 12000000.00, '2026-12-31', 6, 8, '2019-01-01'),
+('Fernando Alonso', 43, 'Spain', 5, 32, 15000000.00, '2025-12-31', 22, 21, '2023-01-01'),
+('Pierre Gasly', 28, 'France', 6, 1, 5000000.00, '2025-12-31', 0, 2, '2023-01-01'),
+('Alex Albon', 28, 'Thailand', 7, 0, 3000000.00, '2025-12-31', 0, 0, '2022-01-01'),
+('Yuki Tsunoda', 24, 'Japan', 8, 0, 1000000.00, '2025-12-31', 0, 0, '2021-01-01'),
+('Valtteri Bottas', 35, 'Finland', 9, 10, 8000000.00, '2025-12-31', 20, 18, '2022-01-01'),
+('Kevin Magnussen', 32, 'Denmark', 10, 0, 2000000.00, '2025-12-31', 1, 2, '2022-01-01'),
+('Sergio Perez', 34, 'Mexico', 1, 7, 10000000.00, '2026-12-31', 3, 6, '2021-01-01'),
+('George Russell', 26, 'United Kingdom', 2, 2, 8000000.00, '2025-12-31', 3, 5, '2022-01-01'),
+('Carlos Sainz', 30, 'Spain', 3, 3, 12000000.00, '2024-12-31', 5, 4, '2021-01-01'),
+('Oscar Piastri', 23, 'Australia', 4, 2, 3000000.00, '2025-12-31', 2, 3, '2023-01-01'),
+('Lance Stroll', 25, 'Canada', 5, 0, 10000000.00, '2026-12-31', 1, 0, '2021-01-01'),
+('Esteban Ocon', 27, 'France', 6, 1, 5000000.00, '2024-12-31', 0, 0, '2022-01-01'),
+('Logan Sargeant', 25, 'United States', 7, 0, 1000000.00, '2024-12-31', 0, 0, '2023-01-01'),
+('Daniel Ricciardo', 35, 'Australia', 8, 8, 6000000.00, '2024-12-31', 3, 16, '2023-01-01'),
+('Zhou Guanyu', 25, 'China', 9, 0, 2000000.00, '2024-12-31', 0, 0, '2022-01-01'),
+('Nico Hulkenberg', 37, 'Germany', 10, 0, 2000000.00, '2024-12-31', 1, 2, '2023-01-01');
 
 -- Update SEASONS as drivers now exist
 UPDATE SEASON SET Champion_Driver_ID = 1, Champion_Team_ID = 1 WHERE Year = 2022;
@@ -1184,6 +1184,8 @@ VALUES
 (241, 'Fine', 'Unsafe Release', 'Overturned', NULL),
 (280, 'Points', 'Dangerous Driving', 'Appealed', NULL),
 (266, 'Fine', 'Crossing Pit Entry Line', 'Overturned', NULL);
+
+
 -- Insert STANDINGS data
 INSERT INTO STANDINGS (Season_ID, Entity_ID, Entity_Type, Points, Wins, Podiums, Rank, Fastest_Laps)
 VALUES 

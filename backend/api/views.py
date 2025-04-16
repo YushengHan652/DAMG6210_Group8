@@ -24,6 +24,37 @@ class TeamViewSet(viewsets.ModelViewSet):
     search_fields = ['team_name', 'team_country', 'team_principal']
     ordering_fields = ['team_name', 'championships_won', 'founded_year', 'budget']
 
+    @action(detail=False, methods=['post'])
+    def perform_create(self, serializer):
+        """Custom method for creating a team with validation"""
+        print("Received data for team creation:", self.request.data)
+        try:
+            team = serializer.save()
+            print(f"Successfully created team: {team.team_name} (ID: {team.team_id})")
+            return team
+        except Exception as e:
+            print(f"Error creating team: {str(e)}")
+            raise
+
+    @action(detail=False, methods=['post'])
+    def perform_update(self, serializer):
+        """Custom method for updating a team with validation"""
+        print("Received data for team update:", self.request.data)
+        try:
+            team = serializer.save()
+            print(f"Successfully updated team: {team.team_name} (ID: {team.team_id})")
+            return team
+        except Exception as e:
+            print(f"Error updating team: {str(e)}")
+            raise
+
+    @action(detail=False, methods=['post']) 
+    def perform_destroy(self, instance):
+        """Custom method for deleting a team with associated cleanup"""
+        print(f"Deleting team: {instance.team_name} (ID: {instance.team_id})")
+        instance.delete()
+        print(f"Successfully deleted team with ID: {instance.team_id}")
+
     @action(detail=False, methods=['patch'])
     def update_by_name(self, request):
         team_name = request.data.get('team_name')
@@ -100,11 +131,25 @@ class DriverViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """Custom method for creating a driver with validation"""
-        serializer.save()
+        print("Received data for driver creation:", self.request.data)
+        try:
+            driver = serializer.save()
+            print(f"Successfully created driver: {driver.name} (ID: {driver.driver_id})")
+            return driver
+        except Exception as e:
+            print(f"Error creating driver: {str(e)}")
+            raise
         
     def perform_update(self, serializer):
         """Custom method for updating a driver with validation"""
-        serializer.save()
+        print("Received data for driver update:", self.request.data)
+        try:
+            driver = serializer.save()
+            print(f"Successfully updated driver: {driver.name} (ID: {driver.driver_id})")
+            return driver
+        except Exception as e:
+            print(f"Error updating driver: {str(e)}")
+            raise
         
     def perform_destroy(self, instance):
         """Custom method for deleting a driver with associated cleanup"""
@@ -127,6 +172,7 @@ class DriverViewSet(viewsets.ModelViewSet):
         
         # Finally delete the driver
         instance.delete()
+        print(f"Successfully deleted driver with ID: {instance.driver_id}")
 
     @action(detail=True, methods=['get'])
     def race_results(self, request, pk=None):
@@ -195,6 +241,34 @@ class SeasonViewSet(viewsets.ModelViewSet):
     search_fields = ['year', 'title_sponsor']
     ordering_fields = ['year', 'number_of_races', 'prize_money_awarded']
 
+    def perform_create(self, serializer):
+        """Custom method for creating a season with validation"""
+        print("Received data for season creation:", self.request.data)
+        try:
+            season = serializer.save()
+            print(f"Successfully created season: {season.year} (ID: {season.season_id})")
+            return season
+        except Exception as e:
+            print(f"Error creating season: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a season with validation"""
+        print("Received data for season update:", self.request.data)
+        try:
+            season = serializer.save()
+            print(f"Successfully updated season: {season.year} (ID: {season.season_id})")
+            return season
+        except Exception as e:
+            print(f"Error updating season: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a season with associated cleanup"""
+        print(f"Deleting season: {instance.year} (ID: {instance.season_id})")
+        instance.delete()
+        print(f"Successfully deleted season with ID: {instance.season_id}")
+
     @action(detail=True, methods=['get'])
     def races(self, request, pk=None):
         season = self.get_object()
@@ -223,6 +297,34 @@ class CircuitViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'country', 'type']
     ordering_fields = ['name', 'length_circuit', 'number_of_turns', 'seating_capacity']
 
+    def perform_create(self, serializer):
+        """Custom method for creating a circuit with validation"""
+        print("Received data for circuit creation:", self.request.data)
+        try:
+            circuit = serializer.save()
+            print(f"Successfully created circuit: {circuit.name} (ID: {circuit.circuit_id})")
+            return circuit
+        except Exception as e:
+            print(f"Error creating circuit: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a circuit with validation"""
+        print("Received data for circuit update:", self.request.data)
+        try:
+            circuit = serializer.save()
+            print(f"Successfully updated circuit: {circuit.name} (ID: {circuit.circuit_id})")
+            return circuit
+        except Exception as e:
+            print(f"Error updating circuit: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a circuit with associated cleanup"""
+        print(f"Deleting circuit: {instance.name} (ID: {instance.circuit_id})")
+        instance.delete()
+        print(f"Successfully deleted circuit with ID: {instance.circuit_id}")
+
     @action(detail=True, methods=['get'])
     def races(self, request, pk=None):
         circuit = self.get_object()
@@ -237,6 +339,39 @@ class RaceViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['location', 'season__year', 'circuit__name']
     ordering_fields = ['date', 'location', 'number_of_laps']
+
+    @action(detail=False, methods=['post'])
+    def perform_create(self, serializer):
+        """Custom method for creating a race with validation"""
+        print("Received data for race creation:", self.request.data)
+        try:
+            race = serializer.save()
+            print(f"Successfully created race: {race.location} (ID: {race.race_id})")
+            return race
+        except Exception as e:
+            print(f"Error creating race: {str(e)}")
+            raise
+    
+    @action(detail=False, methods=['patch'])
+    def perform_update(self, serializer):
+        """Custom method for updating a race with validation"""
+        print("Received data for race update:", self.request.data)
+        try:
+            race = serializer.save()
+            print(f"Successfully updated race: {race.location} (ID: {race.race_id})")
+            return race
+        except Exception as e:
+            print(f"Error updating race: {str(e)}")
+            raise
+    
+    def perform_destroy(self, instance):
+        """Custom method for deleting a race with associated cleanup"""
+        print(f"Deleting race: {instance.location} (ID: {instance.race_id})")
+        # Delete race entries, results, etc. associated with this race
+        RaceEntry.objects.filter(race=instance).delete()
+        RaceResults.objects.filter(race=instance).delete()
+        instance.delete()
+        print(f"Successfully deleted race with ID: {instance.race_id}")
 
     @action(detail=True, methods=['get'])
     def entries(self, request, pk=None):
@@ -274,6 +409,34 @@ class StaffViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'nationality', 'team__team_name', 'employment_status']
     ordering_fields = ['name', 'dob', 'salary']
 
+    def perform_create(self, serializer):
+        """Custom method for creating a staff member with validation"""
+        print("Received data for staff creation:", self.request.data)
+        try:
+            staff = serializer.save()
+            print(f"Successfully created staff member: {staff.name} (ID: {staff.staff_id})")
+            return staff
+        except Exception as e:
+            print(f"Error creating staff member: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a staff member with validation"""
+        print("Received data for staff update:", self.request.data)
+        try:
+            staff = serializer.save()
+            print(f"Successfully updated staff member: {staff.name} (ID: {staff.staff_id})")
+            return staff
+        except Exception as e:
+            print(f"Error updating staff member: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a staff member with associated cleanup"""
+        print(f"Deleting staff member: {instance.name} (ID: {instance.staff_id})")
+        instance.delete()
+        print(f"Successfully deleted staff member with ID: {instance.staff_id}")
+
 
 class SponsorViewSet(viewsets.ModelViewSet):
     queryset = Sponsor.objects.all()
@@ -281,6 +444,34 @@ class SponsorViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['sponsor_name', 'industry', 'headquarters', 'sponsorship_type']
     ordering_fields = ['sponsor_name', 'annual_funding']
+
+    def perform_create(self, serializer):
+        """Custom method for creating a sponsor with validation"""
+        print("Received data for sponsor creation:", self.request.data)
+        try:
+            sponsor = serializer.save()
+            print(f"Successfully created sponsor: {sponsor.sponsor_name} (ID: {sponsor.sponsor_id})")
+            return sponsor
+        except Exception as e:
+            print(f"Error creating sponsor: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a sponsor with validation"""
+        print("Received data for sponsor update:", self.request.data)
+        try:
+            sponsor = serializer.save()
+            print(f"Successfully updated sponsor: {sponsor.sponsor_name} (ID: {sponsor.sponsor_id})")
+            return sponsor
+        except Exception as e:
+            print(f"Error updating sponsor: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a sponsor with associated cleanup"""
+        print(f"Deleting sponsor: {instance.sponsor_name} (ID: {instance.sponsor_id})")
+        instance.delete()
+        print(f"Successfully deleted sponsor with ID: {instance.sponsor_id}")
 
     @action(detail=True, methods=['get'])
     def sponsorships(self, request, pk=None):
@@ -297,6 +488,34 @@ class CarViewSet(viewsets.ModelViewSet):
     search_fields = ['model', 'chassis', 'engine_manufacturer', 'team__team_name']
     ordering_fields = ['model', 'weight', 'horsepower']
 
+    def perform_create(self, serializer):
+        """Custom method for creating a car with validation"""
+        print("Received data for car creation:", self.request.data)
+        try:
+            car = serializer.save()
+            print(f"Successfully created car: {car.model} (ID: {car.car_id})")
+            return car
+        except Exception as e:
+            print(f"Error creating car: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a car with validation"""
+        print("Received data for car update:", self.request.data)
+        try:
+            car = serializer.save()
+            print(f"Successfully updated car: {car.model} (ID: {car.car_id})")
+            return car
+        except Exception as e:
+            print(f"Error updating car: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a car with associated cleanup"""
+        print(f"Deleting car: {instance.model} (ID: {instance.car_id})")
+        instance.delete()
+        print(f"Successfully deleted car with ID: {instance.car_id}")
+
     @action(detail=True, methods=['get'])
     def race_entries(self, request, pk=None):
         car = self.get_object()
@@ -312,6 +531,38 @@ class RaceEntryViewSet(viewsets.ModelViewSet):
     search_fields = ['driver__name', 'race__location', 'car__model']
     ordering_fields = ['grid_position', 'grid_position_final']
 
+    @action(detail=False, methods=['post'])
+    def perform_create(self, serializer):
+        """Custom method for creating a race entry with validation"""
+        print("Received data for race entry creation:", self.request.data)
+        try:
+            entry = serializer.save()
+            print(f"Successfully created race entry: Driver {entry.driver.name} in {entry.race.location} (ID: {entry.entry_id})")
+            return entry
+        except Exception as e:
+            print(f"Error creating race entry: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating a race entry with validation"""
+        print("Received data for race entry update:", self.request.data)
+        try:
+            entry = serializer.save()
+            print(f"Successfully updated race entry: Driver {entry.driver.name} in {entry.race.location} (ID: {entry.entry_id})")
+            return entry
+        except Exception as e:
+            print(f"Error updating race entry: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting a race entry with associated cleanup"""
+        print(f"Deleting race entry: Driver {instance.driver.name} in {instance.race.location} (ID: {instance.entry_id})")
+        # Delete associated penalties and failures
+        Penalties.objects.filter(entry=instance).delete()
+        Failures.objects.filter(entry=instance).delete()
+        instance.delete()
+        print(f"Successfully deleted race entry with ID: {instance.entry_id}")
+
 
 class RaceResultsViewSet(viewsets.ModelViewSet):
     queryset = RaceResults.objects.all()
@@ -320,6 +571,34 @@ class RaceResultsViewSet(viewsets.ModelViewSet):
     search_fields = ['driver__name', 'race__location', 'dnf_status']
     ordering_fields = ['final_position', 'points_scored', 'fastest_lap_time', 'overtakes_made']
 
+    def perform_create(self, serializer):
+        """Custom method for creating race results with validation"""
+        print("Received data for race results creation:", self.request.data)
+        try:
+            result = serializer.save()
+            print(f"Successfully created race result: Driver {result.driver.name} in {result.race.location} (ID: {result.result_id})")
+            return result
+        except Exception as e:
+            print(f"Error creating race result: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating race results with validation"""
+        print("Received data for race results update:", self.request.data)
+        try:
+            result = serializer.save()
+            print(f"Successfully updated race result: Driver {result.driver.name} in {result.race.location} (ID: {result.result_id})")
+            return result
+        except Exception as e:
+            print(f"Error updating race result: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting race results with associated cleanup"""
+        print(f"Deleting race result: Driver {instance.driver.name} in {instance.race.location} (ID: {instance.result_id})")
+        instance.delete()
+        print(f"Successfully deleted race result with ID: {instance.result_id}")
+
 
 class PenaltiesViewSet(viewsets.ModelViewSet):
     queryset = Penalties.objects.all()
@@ -327,6 +606,34 @@ class PenaltiesViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['entry__driver__name', 'penalty_type', 'penalty_reason', 'penalty_status']
     ordering_fields = ['created_on']
+    
+    def perform_create(self, serializer):
+        """Custom method for creating penalties with validation"""
+        print("Received data for penalties creation:", self.request.data)
+        try:
+            penalty = serializer.save()
+            print(f"Successfully created penalty: {penalty.penalty_type} for {penalty.entry.driver.name} (ID: {penalty.penalty_id})")
+            return penalty
+        except Exception as e:
+            print(f"Error creating penalty: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating penalties with validation"""
+        print("Received data for penalties update:", self.request.data)
+        try:
+            penalty = serializer.save()
+            print(f"Successfully updated penalty: {penalty.penalty_type} for {penalty.entry.driver.name} (ID: {penalty.penalty_id})")
+            return penalty
+        except Exception as e:
+            print(f"Error updating penalty: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting penalties with associated cleanup"""
+        print(f"Deleting penalty: {instance.penalty_type} for {instance.entry.driver.name} (ID: {instance.penalty_id})")
+        instance.delete()
+        print(f"Successfully deleted penalty with ID: {instance.penalty_id}")
 
 
 class FailuresViewSet(viewsets.ModelViewSet):
@@ -335,6 +642,34 @@ class FailuresViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['entry__driver__name', 'failure_type', 'failure_description']
     ordering_fields = ['created_on']
+    
+    def perform_create(self, serializer):
+        """Custom method for creating failure records with validation"""
+        print("Received data for failure creation:", self.request.data)
+        try:
+            failure = serializer.save()
+            print(f"Successfully created failure: {failure.failure_type} for {failure.entry.driver.name} (ID: {failure.failure_id})")
+            return failure
+        except Exception as e:
+            print(f"Error creating failure: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating failure records with validation"""
+        print("Received data for failure update:", self.request.data)
+        try:
+            failure = serializer.save()
+            print(f"Successfully updated failure: {failure.failure_type} for {failure.entry.driver.name} (ID: {failure.failure_id})")
+            return failure
+        except Exception as e:
+            print(f"Error updating failure: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting failure records with associated cleanup"""
+        print(f"Deleting failure: {instance.failure_type} for {instance.entry.driver.name} (ID: {instance.failure_id})")
+        instance.delete()
+        print(f"Successfully deleted failure with ID: {instance.failure_id}")
 
 
 class RecordsViewSet(viewsets.ModelViewSet):
@@ -343,4 +678,32 @@ class RecordsViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['record_type', 'record_description', 'driver_of_the_day']
     ordering_fields = ['created_on']
+    
+    def perform_create(self, serializer):
+        """Custom method for creating record entries with validation"""
+        print("Received data for record creation:", self.request.data)
+        try:
+            record = serializer.save()
+            print(f"Successfully created record: {record.record_type} (ID: {record.record_id})")
+            return record
+        except Exception as e:
+            print(f"Error creating record: {str(e)}")
+            raise
+        
+    def perform_update(self, serializer):
+        """Custom method for updating record entries with validation"""
+        print("Received data for record update:", self.request.data)
+        try:
+            record = serializer.save()
+            print(f"Successfully updated record: {record.record_type} (ID: {record.record_id})")
+            return record
+        except Exception as e:
+            print(f"Error updating record: {str(e)}")
+            raise
+            
+    def perform_destroy(self, instance):
+        """Custom method for deleting record entries with associated cleanup"""
+        print(f"Deleting record: {instance.record_type} (ID: {instance.record_id})")
+        instance.delete()
+        print(f"Successfully deleted record with ID: {instance.record_id}")
 

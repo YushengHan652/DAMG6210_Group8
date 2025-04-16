@@ -41,7 +41,7 @@ const DriverCard = ({ driver }) => {
           <h3 className="driver-name">
             <Link to={`/drivers/${driver.driver_id}`}>{driver.name}</Link>
           </h3>
-          <div className="driver-number">#{driver.driver_id}</div>
+          <div className="driver-number">#{driver.race_number || driver.driver_id}</div>
         </div>
       </div>
       

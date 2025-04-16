@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import apiService from '../../services/api';
 import Loading from '../common/Loading';
 import ErrorMessage from '../common/ErrorMessage';
@@ -57,10 +58,17 @@ const DriverList = () => {
   return (
     <div className="driver-list-container">
       <div className="page-header">
-        <h1 className="page-title">Formula 1 Drivers</h1>
-        <p className="page-description">
-          View all Formula 1 drivers competing in the championship
-        </p>
+        <div className="header-content">
+          <div>
+            <h1 className="page-title">Formula 1 Drivers</h1>
+            <p className="page-description">
+              View all Formula 1 drivers competing in the championship
+            </p>
+          </div>
+          <Link to="/drivers/new" className="add-driver-btn">
+            Add New Driver
+          </Link>
+        </div>
       </div>
 
       <div className="filters">
@@ -135,6 +143,12 @@ const DriverList = () => {
           margin-bottom: 30px;
         }
         
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
         .page-title {
           color: var(--secondary-color);
           margin-bottom: 10px;
@@ -142,6 +156,20 @@ const DriverList = () => {
         
         .page-description {
           color: var(--text-color);
+        }
+        
+        .add-driver-btn {
+          background-color: var(--primary-color);
+          color: white;
+          padding: 10px 20px;
+          border-radius: 4px;
+          text-decoration: none;
+          font-weight: 500;
+          transition: background-color 0.2s;
+        }
+        
+        .add-driver-btn:hover {
+          background-color: var(--primary-color-dark);
         }
         
         .filters {
