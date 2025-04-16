@@ -22,25 +22,20 @@ const StandingsWidget = ({ standings, type }) => {
             </tr>
           </thead>
           <tbody>
-            {displayStandings.map((standing) => {
-              console.log('Rendering standing:', standing);
-              return (
-                <tr key={`${type}-${standing.entity_id}-${standing.rank}`}>
-                  <td className="position">{standing.rank || '-'}</td>
-                  <td className="name">
-                    <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
-                      {type === 'Team' 
-                        ? `Team ${standing.entity_id}`
-                        : `Driver ${standing.entity_id}`}
-                    </Link>
-                  </td>
-                  <td className="points">{standing.points}</td>
-                  <td className="wins">{standing.wins}</td>
-                  <td className="podiums">{standing.podiums}</td>
-                  <td className="fastest-laps">{standing.fastest_laps}</td>
-                </tr>
-              );
-            })}
+            {displayStandings.map((standing) => (
+              <tr key={standing.standings_id}>
+                <td className="position">{standing.rank || '-'}</td>
+                <td className="name">
+                  <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
+                    {type === 'Driver' 
+                      ? standing.driver_name
+                      : standing.team_name}
+                  </Link>
+                </td>
+                <td className="points">{standing.points}</td>
+                <td className="wins">{standing.wins}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
