@@ -155,17 +155,9 @@ class DriverListView(ListView):
             )
         
         # Filter by team
-        team_id = self.request.GET.get('team_id', None)
+        team_id = self.request.GET.get('team', None)
         if team_id:
-            team_id = int(team_id)
-            queryset = queryset.filter(team__team_id=team_id)
-        
-        # Filter by team_name
-        team_name = self.request.GET.get('team_name', None)
-        if team_name:
-            # Handle + characters in team_name by replacing with spaces
-            team_name = team_name.replace('+', ' ')
-            queryset = queryset.filter(team__team_name=team_name)
+            queryset = queryset.filter(team_id=team_id)
         
         # Apply sorting
         sort_by = self.request.GET.get('sort', 'name')

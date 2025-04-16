@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 
 const StandingsWidget = ({ standings, type }) => {
   // Show only top 10 standings
-  const displayStandings = standings && standings[0] ? standings[0].slice(0, 10) : [];
-
-  console.log('StandingsWidget props:', { type, standings, displayStandings });
+  const displayStandings = standings ? standings.slice(0, 10) : [];
 
   if (!displayStandings.length) {
     return <p className="no-data">No standings data available</p>;
@@ -21,11 +19,10 @@ const StandingsWidget = ({ standings, type }) => {
               <th>{type}</th>
               <th>Pts</th>
               <th>Wins</th>
-              <th>Podiums</th>
-              <th>Fastest Laps</th>
             </tr>
           </thead>
           <tbody>
+<<<<<<< HEAD
             {displayStandings.map((standing) => {
               console.log('Rendering standing:', standing);
               return (
@@ -45,12 +42,28 @@ const StandingsWidget = ({ standings, type }) => {
                 </tr>
               );
             })}
+=======
+            {displayStandings.map((standing) => (
+              <tr key={standing.standings_id}>
+                <td className="position">{standing.rank || '-'}</td>
+                <td className="name">
+                  <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
+                    {type === 'Driver' 
+                      ? standing.driver_name
+                      : standing.team_name}
+                  </Link>
+                </td>
+                <td className="points">{standing.points}</td>
+                <td className="wins">{standing.wins}</td>
+              </tr>
+            ))}
+>>>>>>> parent of fd77f62 (update everything, dashboard+driver works now)
           </tbody>
         </table>
       </div>
       
       <div className="see-more">
-        <Link to={`/seasons/${displayStandings[0]?.season}`} className="see-more-link">
+        <Link to={`/seasons/${standings[0]?.season_id}`} className="see-more-link">
           View Complete Standings
         </Link>
       </div>
@@ -83,7 +96,7 @@ const StandingsWidget = ({ standings, type }) => {
           text-align: center;
         }
         
-        .points, .wins, .podiums, .fastest-laps {
+        .points, .wins {
           text-align: center;
           width: 60px;
         }

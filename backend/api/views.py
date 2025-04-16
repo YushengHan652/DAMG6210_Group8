@@ -98,31 +98,6 @@ class DriverViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'nationality', 'team__team_name']
     ordering_fields = ['name', 'age', 'number_of_wins', 'pole_positions', 'fastest_laps', 'salary']
 
-    def get_queryset(self):
-        """
-        Custom queryset to handle filtering by team_name explicitly
-        """
-        queryset = super().get_queryset()
-        
-        # Handle team_name filter - decode any URL encoding and handle spaces properly
-        team_name = self.request.query_params.get('team_name', None)
-        if team_name:
-            # Log the team name being searched for debugging
-            print(f"Filtering by team_name: {team_name}")
-            
-            # Handle '+' characters or URL encoding in team_name
-            if '+' in team_name:
-                team_name = team_name.replace('+', ' ')
-            
-            queryset = queryset.filter(team__team_name=team_name)
-
-        # Handle other filters
-        team_id = self.request.query_params.get('team_id', None)
-        if team_id:
-            queryset = queryset.filter(team__team_id=team_id)
-            
-        return queryset
-
     def perform_create(self, serializer):
         """Custom method for creating a driver with validation"""
         serializer.save()

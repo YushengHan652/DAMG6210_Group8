@@ -21,47 +21,30 @@ export const AppProvider = ({ children }) => {
     const fetchCurrentSeason = async () => {
       try {
         setLoading(true);
-        console.log('Fetching seasons...');
         const response = await apiService.getSeasons();
-        console.log('Seasons response:', response);
-        
-        // Get the latest season from the results array
-        const latestSeason = response.data?.results?.[0] || null;
-        console.log('Latest season:', latestSeason);
+        // Assuming seasons are returned in descending order by year
+        const latestSeason = response.data.results[0];
         setCurrentSeason(latestSeason);
         
-        if (latestSeason?.season_id) {
+        if (latestSeason) {
           // Fetch driver standings for current season
-          console.log('Fetching driver standings...');
           const driverStandingsResponse = await apiService.getSeasonStandings(
             latestSeason.season_id,
             'Driver'
           );
-          console.log('Driver standings response:', driverStandingsResponse);
-          // Handle single standing response
-          const driverStandings = driverStandingsResponse.data ? [driverStandingsResponse.data] : [];
-          setCurrentSeasonDriverStandings(driverStandings);
+          setCurrentSeasonDriverStandings(driverStandingsResponse.data.results);
           
           // Fetch team standings for current season
-          console.log('Fetching team standings...');
           const teamStandingsResponse = await apiService.getSeasonStandings(
             latestSeason.season_id,
             'Team'
           );
-          console.log('Team standings response:', teamStandingsResponse);
-          // Handle single standing response
-          const teamStandings = teamStandingsResponse.data ? [teamStandingsResponse.data] : [];
-          setCurrentSeasonTeamStandings(teamStandings);
+          setCurrentSeasonTeamStandings(teamStandingsResponse.data.results);
         }
         
         setLoading(false);
       } catch (err) {
         console.error('Error fetching current season:', err);
-        console.error('Error details:', {
-          message: err.message,
-          response: err.response,
-          request: err.request
-        });
         setError('Failed to load current season data');
         setLoading(false);
       }

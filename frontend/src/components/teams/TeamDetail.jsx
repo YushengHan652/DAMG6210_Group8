@@ -22,6 +22,10 @@ const TeamDetail = () => {
     () => apiService.getTeamDrivers(id),
     {
       enabled: !!id,
+      onSuccess: (data) => {
+        console.log('Drivers API Response:', data);
+        console.log('Drivers Data:', data?.data);
+      }
     }
   );
 
