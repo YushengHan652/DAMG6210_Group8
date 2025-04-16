@@ -23,7 +23,13 @@ apiClient.interceptors.request.use(
 
 // Add response interceptor
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Handle successful responses
+    if (response.data) {
+      return response;
+    }
+    return Promise.reject(new Error('No data in response'));
+  },
   (error) => {
     // Handle common error scenarios here
     if (error.response) {

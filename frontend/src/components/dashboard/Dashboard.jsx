@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import apiService from '../../services/api';
 import { useAppContext } from '../../context/AppContext';
@@ -8,9 +8,7 @@ import StandingsWidget from './StandingsWidget';
 import RecentRacesWidget from './RecentRacesWidget';
 
 const Dashboard = () => {
-  const { currentSeason, currentSeasonDriverStandings, currentSeasonTeamStandings } = useAppContext();
-  const [upcomingRaces, setUpcomingRaces] = useState([]);
-  const [recentRaces, setRecentRaces] = useState([]);
+  const { currentSeason, currentSeasonDriverStandings, currentSeasonTeamStandings, loading, error } = useAppContext();
 
   // Fetch races for the current season
   const { data: racesData, isLoading: racesLoading, error: racesError } = useQuery(
@@ -18,8 +16,8 @@ const Dashboard = () => {
     () => apiService.getSeasonRaces(currentSeason?.season_id),
     {
       enabled: !!currentSeason,
-      onSuccess: (response) => {
-        const races = response.data.results;
+      select: (response) => {
+        const races = Array.isArray(response.data) ? response.data : [];
         const today = new Date();
         
         // Filter races into upcoming and past
@@ -33,13 +31,20 @@ const Dashboard = () => {
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .slice(0, 5);
           
-        setUpcomingRaces(upcoming);
-        setRecentRaces(recent);
+        return { upcoming, recent };
       }
     }
   );
 
-  if (!currentSeason && !racesLoading) {
+  if (loading) {
+    return <Loading message="Loading dashboard data..." />;
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
+  if (!currentSeason) {
     return <ErrorMessage message="No season data available." />;
   }
 
@@ -105,8 +110,8 @@ const Dashboard = () => {
                 <Loading message="Loading races..." />
               ) : racesError ? (
                 <ErrorMessage message="Failed to load upcoming races." />
-              ) : upcomingRaces.length > 0 ? (
-                <RecentRacesWidget races={upcomingRaces} type="upcoming" />
+              ) : racesData?.upcoming?.length > 0 ? (
+                <RecentRacesWidget races={racesData.upcoming} type="upcoming" />
               ) : (
                 <p className="no-data">No upcoming races scheduled</p>
               )}
@@ -122,8 +127,8 @@ const Dashboard = () => {
                 <Loading message="Loading results..." />
               ) : racesError ? (
                 <ErrorMessage message="Failed to load recent results." />
-              ) : recentRaces.length > 0 ? (
-                <RecentRacesWidget races={recentRaces} type="recent" />
+              ) : racesData?.recent?.length > 0 ? (
+                <RecentRacesWidget races={racesData.recent} type="recent" />
               ) : (
                 <p className="no-data">No recent race results</p>
               )}

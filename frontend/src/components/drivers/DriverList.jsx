@@ -13,10 +13,30 @@ const DriverList = () => {
   // Fetch drivers data
   const { data: driversData, isLoading: driversLoading, error: driversError, refetch } = useQuery(
     ['drivers', { sort: sortBy, team: teamFilter }],
-    () => apiService.getDrivers({ 
-      ordering: sortBy,
-      team: teamFilter || undefined 
-    }),
+    () => {
+      console.log('Fetching drivers with filters:', { sortBy, teamFilter });
+      
+      const params = {
+        ordering: sortBy
+      };
+      
+      // Only add team_name if it has a value
+      if (teamFilter) {
+        // Use encodedTeamName to handle spaces and special characters
+        params.team_name = teamFilter;
+        console.log('Using team filter:', params.team_name);
+      }
+      
+      return apiService.getDrivers(params)
+        .then(response => {
+          console.log('API Response:', response);
+          return response;
+        })
+        .catch(error => {
+          console.error('API Error:', error);
+          throw error;
+        });
+    },
     {
       keepPreviousData: true,
     }
@@ -85,7 +105,7 @@ const DriverList = () => {
             >
               <option value="">All Teams</option>
               {teams.map(team => (
-                <option key={team.team_id} value={team.team_id}>
+                <option key={team.team_id} value={team.team_name}>
                   {team.team_name}
                 </option>
               ))}

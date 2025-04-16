@@ -14,7 +14,7 @@ const DriverCard = ({ driver }) => {
       'Williams Racing': '#005AFF',
       'Visa Cash App RB': '#1E41FF',
       'Stake F1 Team Kick Sauber': '#900000',
-      'MoneyGram Haas F1 Team': '#FFFFFF',
+      'MoneyGram Haas F1 Team': '#7E7B7A',
     };
     
     return teamColors[teamName] || '#333333';
