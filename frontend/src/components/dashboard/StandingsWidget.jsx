@@ -29,13 +29,13 @@ const StandingsWidget = ({ standings, type }) => {
             {displayStandings.map((standing) => {
               console.log('Rendering standing:', standing);
               return (
-                <tr key={`${type}-${standing.entity_id}-${standing.rank}`}>
+                <tr key={`${type}-${standing.driver_id}-${standing.rank}`}>
                   <td className="position">{standing.rank || '-'}</td>
                   <td className="name">
-                    <Link to={`/${type.toLowerCase()}s/${standing.entity_id}`}>
-                      {type === 'Team' 
-                        ? `Team ${standing.entity_id}`
-                        : `Driver ${standing.entity_id}`}
+                    <Link to={`/${type.toLowerCase()}s/${standing.driver_id}`}>
+                      {standing.entity_name || (type === 'Team' 
+                        ? `Team ${standing.name}`
+                        : `Driver ${standing.name}`)}
                     </Link>
                   </td>
                   <td className="points">{standing.points}</td>
