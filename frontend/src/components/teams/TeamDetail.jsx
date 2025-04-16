@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import apiService from '../../services/api';
@@ -17,11 +17,15 @@ const TeamDetail = () => {
   );
 
   // Fetch team drivers
-  const { data: driversData, isLoading: driversLoading } = useQuery(
+  const { data: driversData, isLoading: driversLoading, error: driversError } = useQuery(
     ['teamDrivers', id],
     () => apiService.getTeamDrivers(id),
     {
-      enabled: !!id
+      enabled: !!id,
+      onSuccess: (data) => {
+        console.log('Drivers API Response:', data);
+        console.log('Drivers Data:', data?.data);
+      }
     }
   );
 
@@ -61,10 +65,14 @@ const TeamDetail = () => {
   }
 
   const team = teamData?.data;
-  const drivers = driversData?.data?.results || [];
+  const drivers = Array.isArray(driversData?.data) ? driversData.data : [];
   const cars = carsData?.data?.results || [];
   const sponsorships = sponsorshipsData?.data?.results || [];
   const staff = staffData?.data?.results || [];
+
+  console.log('Team:', team);
+  console.log('Drivers:', drivers);
+  console.log('First Driver:', drivers[0]);
 
   // Format budget to a readable string with currency symbol
   const formatBudget = (budget) => {
@@ -188,6 +196,8 @@ const TeamDetail = () => {
               <h2>Current Drivers</h2>
               {driversLoading ? (
                 <Loading message="Loading drivers..." />
+              ) : driversError ? (
+                <ErrorMessage message="Failed to load drivers." />
               ) : drivers.length > 0 ? (
                 <div className="drivers-grid">
                   {drivers.map(driver => (
@@ -206,6 +216,8 @@ const TeamDetail = () => {
             <h2>Team Drivers</h2>
             {driversLoading ? (
               <Loading message="Loading drivers..." />
+            ) : driversError ? (
+              <ErrorMessage message="Failed to load drivers." />
             ) : drivers.length > 0 ? (
               <div className="drivers-grid">
                 {drivers.map(driver => (

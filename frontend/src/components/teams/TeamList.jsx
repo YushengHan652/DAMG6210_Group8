@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import apiService from '../../services/api';
 import Loading from '../common/Loading';
 import ErrorMessage from '../common/ErrorMessage';
@@ -38,7 +39,10 @@ const TeamList = () => {
   return (
     <div className="team-list-container">
       <div className="page-header">
-        <h1 className="page-title">Formula 1 Teams</h1>
+        <div className="header-content">
+          <h1 className="page-title">Formula 1 Teams</h1>
+          <Link to="/teams/new" className="add-new-btn">Add New Team</Link>
+        </div>
         <p className="page-description">
           View all Formula 1 teams competing in the championship
         </p>
@@ -70,16 +74,6 @@ const TeamList = () => {
             <option value="-budget">Budget</option>
           </select>
         </div>
-
-        <div className="page-header">
-          <div className="header-content">
-            <h1 className="page-title">Formula 1 Teams</h1>
-            <Link to="/teams/new" className="add-new-btn">Add New Team</Link>
-          </div>
-          <p className="page-description">
-            View all Formula 1 teams competing in the championship
-          </p>
-        </div>
       </div>
 
       {isLoading ? (
@@ -106,9 +100,25 @@ const TeamList = () => {
           margin-bottom: 30px;
         }
         
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        
         .page-title {
           color: var(--secondary-color);
-          margin-bottom: 10px;
+          margin: 0;
+        }
+        
+        .add-new-btn {
+          padding: 8px 16px;
+          background-color: var(--primary-color);
+          color: white;
+          border-radius: 4px;
+          text-decoration: none;
+          font-weight: 500;
         }
         
         .page-description {

@@ -49,7 +49,7 @@ const DriverCard = ({ driver }) => {
         <div className="driver-details">
           <div className="driver-detail">
             <span className="detail-label">Team:</span>
-            <Link to={`/teams/${driver.team_id}`} className="team-link">
+            <Link to={`/teams/${driver.team}`} className="team-link">
               {driver.team_name}
             </Link>
           </div>
@@ -62,6 +62,13 @@ const DriverCard = ({ driver }) => {
           <div className="driver-detail">
             <span className="detail-label">Nationality:</span>
             <span className="detail-value">{driver.nationality}</span>
+          </div>
+          
+          <div className="driver-detail">
+            <span className="detail-label">Contract:</span>
+            <span className="detail-value">
+              {new Date(driver.contract_start_date).toLocaleDateString()} - {new Date(driver.contract_end_date).toLocaleDateString()}
+            </span>
           </div>
           
           <div className="driver-stats">
