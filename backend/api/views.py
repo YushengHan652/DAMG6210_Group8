@@ -128,7 +128,8 @@ class DriverViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'nationality', 'team__team_name']
     ordering_fields = ['name', 'age', 'number_of_wins', 'pole_positions', 'fastest_laps', 'salary']
-
+    
+    @action(detail=True, methods=['post'])
     def perform_create(self, serializer):
         """Custom method for creating a driver with validation"""
         print("Received data for driver creation:", self.request.data)
@@ -139,7 +140,8 @@ class DriverViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print(f"Error creating driver: {str(e)}")
             raise
-        
+    
+    @action(detail=True, methods=['patch'])
     def perform_update(self, serializer):
         """Custom method for updating a driver with validation"""
         print("Received data for driver update:", self.request.data)
@@ -151,6 +153,7 @@ class DriverViewSet(viewsets.ModelViewSet):
             print(f"Error updating driver: {str(e)}")
             raise
         
+    @action(detail=True, methods=['delete'])
     def perform_destroy(self, instance):
         """Custom method for deleting a driver with associated cleanup"""
         # Get related race entries to clean up after driver deletion
